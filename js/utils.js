@@ -35,6 +35,8 @@
 // }
 //
 
+import { CELL_VALUE, GAME_STATUS } from "./constants.js";
+
 // Input: an array of 9 items
 // Output: an object as mentioned above
 export function checkGameStatus(cellValues) {
@@ -42,8 +44,46 @@ export function checkGameStatus(cellValues) {
   // Please feel free to add more helper function if you want.
   // It's not required to write everything just in this function.
 
+  if (!Array.isArray(cellValues) || cellValues.length !== 9) {
+    throw new Error("Invalid cell values");
+  }
+
+  const checkCellList = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  const winSetIndex = checkCellList.findIndex((cell) => {
+    const first = cellValues[cell[0]];
+    const second = cellValues[cell[1]];
+    const third = cellValues[cell[2]];
+
+    return first !== "" && second === third && second === first;
+  });
+
+  if (winSetIndex >= 0) {
+    const winValueIndex = checkCellList[winSetIndex][1];
+    const winValue = cellValues[winValueIndex];
+
+    return {
+      status:
+        winValue === CELL_VALUE.CIRCLE ? GAME_STATUS.O_WIN : GAME_STATUS.X_WIN,
+      winPositions: checkCellList[winSetIndex],
+    };
+  }
+
+  const isEndGame = cellValues.some((x) => x === "");
+
   return {
-    status: GAME_STATUS.PLAYING,
+    status: !isEndGame ? GAME_STATUS.ENDED : GAME_STATUS.PLAYING,
     winPositions: [],
   };
 }

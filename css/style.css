@@ -65,13 +65,13 @@ ul {
 }
 
 .game .board-cells-list > li.win {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Add hover effect on cell hover */
 .game .board-cells-list > li:hover {
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* Remove hover effect if cell already clicked */
